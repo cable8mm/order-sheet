@@ -5,7 +5,6 @@
 [![Packagist Version](https://img.shields.io/packagist/v/cable8mm/order-sheet)](https://packagist.org/packages/cable8mm/order-sheet)
 [![Packagist Dependency Version](https://img.shields.io/packagist/dependency-v/cable8mm/order-sheet/php?logo=PHP&logoColor=white&color=777BB4
 )](https://packagist.org/packages/cable8mm/order-sheet)
-![Laravel Version](https://img.shields.io/badge/Laravel-8.0%2B-FF2D20?logo=laravel&labelColor=white)
 [![Packagist Downloads](https://img.shields.io/packagist/dt/cable8mm/order-sheet)](https://packagist.org/packages/cable8mm/order-sheet/stats)
 [![Packagist Stars](https://img.shields.io/packagist/stars/cable8mm/order-sheet)](https://github.com/cable8mm/order-sheet/stargazers)
 [![Packagist License](https://img.shields.io/packagist/l/cable8mm/order-sheet)](https://github.com/cable8mm/order-sheet/blob/main/LICENSE.md)
