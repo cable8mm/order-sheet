@@ -71,7 +71,7 @@ abstract class Factory
         $records = [];
 
         for ($i = 0; $i < $this->count; $i++) {
-            $record = $this->definition();
+            $record = array_values($this->definition());
 
             if (! empty($this->state)) {
                 foreach ($this->state as $key => $value) {
@@ -83,5 +83,15 @@ abstract class Factory
         }
 
         return $records;
+    }
+
+    /**
+     * Get header cells
+     *
+     * @return array<string> The header cells
+     */
+    public function header(): array
+    {
+        return array_keys($this->definition());
     }
 }

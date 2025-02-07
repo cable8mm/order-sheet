@@ -57,7 +57,7 @@ class PlayautoFactory extends Factory
             '배송메세지' => Faker::shared()->randomElement(['문 앞에 놔 주세요', '', '부재 시 연락 주세요']),
             '배송사명' => Faker::shared()->company(),
             '송장번호' => Faker::shared()->randomNumber(9) + 1,
-            '마스터상품코드' => ($masterCode = Faker::shared()->randomNumber(9) + 1),
+            '마스터상품코드' => ($masterCode = Faker::shared()->randomNumber(1) + 1),
             '주의메세지' => null,
             '판매자상품코드' => $masterCode,
         ];
