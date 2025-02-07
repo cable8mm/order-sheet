@@ -1,6 +1,6 @@
 <?php
 
-namespace Cable8mm\OrderSheetInvoiceGenerator\Enums;
+namespace Cable8mm\OrderSheet\Enums;
 
 use Cable8mm\EnumGetter\EnumGetter;
 

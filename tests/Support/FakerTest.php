@@ -1,8 +1,8 @@
 <?php
 
-namespace Cable8mm\OrderSheetInvoiceGenerator\Tests\Support;
+namespace Cable8mm\OrderSheet\Tests\Support;
 
-use Cable8mm\OrderSheetInvoiceGenerator\Support\Faker;
+use Cable8mm\OrderSheet\Support\Faker;
 use PHPUnit\Framework\TestCase;
 
 final class FakerTest extends TestCase

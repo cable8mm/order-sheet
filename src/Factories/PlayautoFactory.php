@@ -1,9 +1,9 @@
 <?php
 
-namespace Cable8mm\OrderSheetInvoiceGenerator\Factories;
+namespace Cable8mm\OrderSheet\Factories;
 
-use Cable8mm\OrderSheetInvoiceGenerator\Enums\OnlineMall;
-use Cable8mm\OrderSheetInvoiceGenerator\Support\Faker;
+use Cable8mm\OrderSheet\Enums\OnlineMall;
+use Cable8mm\OrderSheet\Support\Faker;
 
 class PlayautoFactory extends Factory
 {

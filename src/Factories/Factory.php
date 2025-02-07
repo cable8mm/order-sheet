@@ -1,6 +1,6 @@
 <?php
 
-namespace Cable8mm\OrderSheetInvoiceGenerator\Factories;
+namespace Cable8mm\OrderSheet\Factories;
 
 abstract class Factory
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cable8mm\OrderSheetInvoiceGenerator\Tests;
+namespace Cable8mm\OrderSheet\Tests;
 
 use PHPUnit\Framework\TestCase;
 

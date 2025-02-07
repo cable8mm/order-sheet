@@ -1,6 +1,6 @@
 <?php
 
-namespace Cable8mm\OrderSheetInvoiceGenerator\Support;
+namespace Cable8mm\OrderSheet\Support;
 
 class Faker
 {

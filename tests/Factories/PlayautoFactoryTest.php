@@ -1,8 +1,8 @@
 <?php
 
-namespace Cable8mm\OrderSheetInvoiceGenerator\Tests\Factories;
+namespace Cable8mm\OrderSheet\Tests\Factories;
 
-use Cable8mm\OrderSheetInvoiceGenerator\Factories\PlayautoFactory;
+use Cable8mm\OrderSheet\Factories\PlayautoFactory;
 use PHPUnit\Framework\TestCase;
 
 final class PlayautoFactoryTest extends TestCase

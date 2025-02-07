@@ -1,11 +1,11 @@
 {
-    "name": "cable8mm/order-sheet-invoice-generator",
+    "name": "cable8mm/order-sheet",
     "description": "This package is able to generate a kind of seed for order sheets and order invoices so you can use it for testing like that",
     "keywords": [
         "cable8mm",
-        "order-sheet-invoice-generator"
+        "order-sheet"
     ],
-    "homepage": "https://github.com/cable8mm/order-sheet-invoice-generator",
+    "homepage": "https://github.com/cable8mm/order-sheet",
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -27,12 +27,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Cable8mm\\OrderSheetInvoiceGenerator\\": "src"
+            "Cable8mm\\OrderSheet\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Cable8mm\\OrderSheetInvoiceGenerator\\Tests\\": "tests"
+            "Cable8mm\\OrderSheet\\Tests\\": "tests"
         }
     },
     "scripts": {
