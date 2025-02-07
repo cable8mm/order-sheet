@@ -1,0 +1,12 @@
+/phpunit.xml
+/vendor
+composer.lock
+.phpunit.result.cache
+/.vscode
+/test.php
+/database/database.sqlite
+/.env
+/build
+/cache
+/doctum.php
+/.phpunit.cache
