@@ -23,7 +23,7 @@ We have provided the API Documentation on the web. For more information, please 
 You can install the package via composer:
 
 ```bash
-composer require cable8mm/order-sheet-invoice-generator
+composer require cable8mm/order-sheet
 ```
 
 ## Usage
