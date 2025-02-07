@@ -1,11 +1,11 @@
 {
-    "name": "cable8mm/order-sheet-invoice-generator",
+    "name": "cable8mm/order-sheet",
     "description": "This package is able to generate a kind of seed for order sheets and order invoices so you can use it for testing like that",
     "keywords": [
         "cable8mm",
-        "order-sheet-invoice-generator"
+        "order-sheet"
     ],
-    "homepage": "https://github.com/cable8mm/order-sheet-invoice-generator",
+    "homepage": "https://github.com/cable8mm/order-sheet",
     "license": "MIT",
     "type": "library",
     "authors": [
@@ -16,20 +16,31 @@
         }
     ],
     "require": {
-        "php": "^8.1"
+        "php": "^8.1",
+        "cable8mm/enum-getter": "^1.4",
+        "fakerphp/faker": "^1.24",
+        "league/csv": "^9.21",
+        "mbezhanov/faker-provider-collection": "^2.0",
+        "phpoffice/phpspreadsheet": "^3.9"
     },
     "require-dev": {
         "laravel/pint": "^1.20",
         "phpunit/phpunit": "^9.0|^10.0|^11.0"
     },
+    "suggest": {
+        "cable8mm/enum-getter": "Provide a easy way to access enum values",
+        "ext-mbstring": "`league/csv` needed to be installed",
+        "mbezhanov/faker-provider-collection": "Provide faker methods for companies and products",
+        "phpoffice/phpspreadsheet": "Provides xlsx support for exporting data"
+    },
     "autoload": {
         "psr-4": {
-            "Cable8mm\\OrderSheetInvoiceGenerator\\": "src"
+            "Cable8mm\\OrderSheet\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Cable8mm\\OrderSheetInvoiceGenerator\\Tests\\": "tests"
+            "Cable8mm\\OrderSheet\\Tests\\": "tests"
         }
     },
     "scripts": {
