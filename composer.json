@@ -46,7 +46,9 @@
     "scripts": {
         "test": "vendor/bin/phpunit",
         "test-coverage": "vendor/bin/phpunit --coverage-html coverage",
-        "lint": "./vendor/bin/pint"
+        "lint": "./vendor/bin/pint",
+        "apidoc": "rm -rf build; rm -rf cache; doctum.phar update doctum.php --output-format=github --no-ansi --no-progress -v;",
+        "opendoc": "open build/index.html"
     },
     "config": {
         "sort-packages": true
