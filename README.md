@@ -12,6 +12,8 @@
 
 This package is able to generate a kind of seeds for **order sheets** and **order invoices** so you can use this package for testing as you want to.
 
+We have provided the API Documentation on the web. For more information, please visit <https://www.palgle.com/order-sheet/> ❤️
+
 ## Supported Companies
 
 - [x] PLAYAUTO - <https://www.plto.com/>
