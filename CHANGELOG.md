@@ -1,5 +1,16 @@
 # Release Notes
 
+## v.1.1.0 - 2025-02-08
+
+### What's Changed
+
+* Fix a install command error by [@cable8mm](https://github.com/cable8mm) in https://github.com/cable8mm/order-sheet/pull/5
+* Update `deploy-to-github-pages` action for publishing api documents by [@cable8mm](https://github.com/cable8mm) in https://github.com/cable8mm/order-sheet/pull/6
+* Add doctum file for publishing API documents by [@cable8mm](https://github.com/cable8mm) in https://github.com/cable8mm/order-sheet/pull/7
+* Make phpspreadsheet compatible by [@cable8mm](https://github.com/cable8mm) in https://github.com/cable8mm/order-sheet/pull/8
+
+**Full Changelog**: https://github.com/cable8mm/order-sheet/compare/v1.0.1...v.1.1.0
+
 ## v1.0.1 - 2025-02-07
 
 ### What's Changed
