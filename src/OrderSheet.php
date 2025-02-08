@@ -80,7 +80,7 @@ class OrderSheet
      */
     public function path(string $path): static
     {
-        $this->path = realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.$path);
+        $this->path = $path;
 
         return $this;
     }
