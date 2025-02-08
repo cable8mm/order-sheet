@@ -30,20 +30,20 @@ composer require cable8mm/order-sheet
 
 ```php
 OrderSheet::of(OrderSheetType::PlayautoType)
-  ->count(10)     // 10 of factories
-  ->header()      // include the header row
-  ->path('dist')  // the saving path
-  ->xlsx();       // export to xlsx file
+  ->count(10)              // 10 of factories
+  ->header()               // include the header row
+  ->path('dist')           // the saving path
+  ->xlsx('my.xlsx');       // export to xlsx file(default: 'order_sheet.xlsx')
 // => Save 10 factories with header in 'dist' folder
 
 $orderSheets = OrderSheet::of(OrderSheetType::PlayautoType)
-  ->count(10)     // 10 of factories
-  ->csv();        // export to csv
+  ->count(10)              // 10 of factories
+  ->csv();                 // export to csv
 // => Get 10 factories without header row
 
 $orderSheets = OrderSheet::of(OrderSheetType::PlayautoType)
-  ->count(10)     // 10 of factories
-  ->toArray();    // export to array
+  ->count(10)              // 10 of factories
+  ->toArray();             // export to array
 // => Get 10 factories array without header row
 ```
 
