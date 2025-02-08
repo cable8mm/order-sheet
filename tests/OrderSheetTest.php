@@ -21,7 +21,7 @@ final class OrderSheetTest extends TestCase
     public function test_path_exists(): void
     {
         $orderSheet = OrderSheet::of(OrderSheetType::PlayautoType)
-            ->path('dist');
+            ->path(realpath(__DIR__.'/../dist'));
 
         $reflection = new ReflectionClass($orderSheet);
 
@@ -55,8 +55,6 @@ final class OrderSheetTest extends TestCase
 
     public function test_it_export_to_xlsx(): void
     {
-        unlink(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'dist'.DIRECTORY_SEPARATOR.'order_sheet.xlsx'));
-
         $orderSheet = OrderSheet::of(OrderSheetType::PlayautoType)
             ->count(10)
             ->path('dist')
@@ -64,12 +62,12 @@ final class OrderSheetTest extends TestCase
             ->xlsx();
 
         $this->assertFileExists(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'dist'.DIRECTORY_SEPARATOR.'order_sheet.xlsx'));
+
+        unlink(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'dist'.DIRECTORY_SEPARATOR.'order_sheet.xlsx'));
     }
 
     public function test_it_export_to_xlsx_with_naming(): void
     {
-        unlink(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'dist'.DIRECTORY_SEPARATOR.'make_custom_name.xlsx'));
-
         $orderSheet = OrderSheet::of(OrderSheetType::PlayautoType)
             ->count(10)
             ->path('dist')
@@ -77,5 +75,7 @@ final class OrderSheetTest extends TestCase
             ->xlsx('make_custom_name.xlsx');
 
         $this->assertFileExists(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'dist'.DIRECTORY_SEPARATOR.'make_custom_name.xlsx'));
+
+        unlink(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'dist'.DIRECTORY_SEPARATOR.'make_custom_name.xlsx'));
     }
 }
