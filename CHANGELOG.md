@@ -1,5 +1,13 @@
 # Release Notes
 
+## v1.2.1 - 2025-02-08
+
+### What's Changed
+
+* Fix a path method error by [@cable8mm](https://github.com/cable8mm) in https://github.com/cable8mm/order-sheet/pull/10
+
+**Full Changelog**: https://github.com/cable8mm/order-sheet/compare/v1.2.0...v1.2.1
+
 ## v1.2.0 - 2025-02-08
 
 ### What's Changed
