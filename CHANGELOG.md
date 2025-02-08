@@ -1,5 +1,13 @@
 # Release Notes
 
+## v1.2.0 - 2025-02-08
+
+### What's Changed
+
+* Add up a naming function by [@cable8mm](https://github.com/cable8mm) in https://github.com/cable8mm/order-sheet/pull/9
+
+**Full Changelog**: https://github.com/cable8mm/order-sheet/compare/v1.1.0...v1.2.0
+
 ## v.1.1.0 - 2025-02-08
 
 ### What's Changed
