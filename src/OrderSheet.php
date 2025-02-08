@@ -130,9 +130,9 @@ class OrderSheet
     /**
      * Export the order sheet data to XLSX
      *
-     * @param  bool  $new  Whether to create a new file or overwrite the existing file
+     * @param  string  $filename  A filename to create
      */
-    public function xlsx(bool $new = true): void
+    public function xlsx(string $filename = 'order_sheet.xlsx'): void
     {
         $spreadsheet = new Spreadsheet;
         $activeWorksheet = $spreadsheet->getActiveSheet();
@@ -140,7 +140,7 @@ class OrderSheet
 
         $writer = new Xlsx($spreadsheet);
 
-        $writer->save($this->path.DIRECTORY_SEPARATOR.'order_sheet.xlsx');
+        $writer->save($this->path.DIRECTORY_SEPARATOR.$filename);
     }
 
     /**
