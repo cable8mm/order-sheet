@@ -17,6 +17,17 @@ We have provided the API Documentation on the web. For more information, please 
 
 - [x] PLAYAUTO - <https://www.plto.com/>
 
+## Supported Online Malls
+
+The following online malls are available for the PLAYAUTO order sheet:
+
+- 티몬 (Timon)
+- 고도몰5 (GodoMall5)
+- 카페24(신) (NewCafe24)
+- 위메프2.0 (Wemake2)
+- 롯데백화점 (LotteDepartment)
+- 옥션 (Auction)
+
 ## Extending
 
 This package is designed to be extensible. To add support for a new company:
@@ -107,6 +118,13 @@ $orderSheets = OrderSheet::of(OrderSheetType::PlayautoType)
   ])
   ->toArray();
 // => Returns array with 5 rows where '상태' is '배송완료' and '구매자명' is '홍길동'
+
+// Using with header for CSV
+$csv = OrderSheet::of(OrderSheetType::PlayautoType)
+  ->count(10)
+  ->header()               // Include header row
+  ->csv();
+// => Returns CSV string with header row and 10 data rows
 ```
 
 ### Testing

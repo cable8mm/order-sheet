@@ -49,11 +49,17 @@ class OrderSheet
     /**
      * Setter for $count
      *
-     * @param  int  $count  The number of rows in the order sheet
+     * @param  int  $count  The number of rows in the order sheet (must be >= 1)
      * @return static The method returns self instance
+     *
+     * @throws \InvalidArgumentException If count is less than 1
      */
     public function count(int $count): static
     {
+        if ($count < 1) {
+            throw new \InvalidArgumentException('Count must be at least 1');
+        }
+
         $this->count = $count;
 
         return $this;
@@ -132,9 +138,19 @@ class OrderSheet
      * Export the order sheet data to XLSX
      *
      * @param  string  $filename  A filename to create
+     *
+     * @throws \RuntimeException If the directory does not exist or is not writable
      */
     public function xlsx(string $filename = 'order_sheet.xlsx'): void
     {
+        if (! file_exists($this->path)) {
+            throw new \RuntimeException(sprintf('Directory "%s" does not exist', $this->path));
+        }
+
+        if (! is_writable($this->path)) {
+            throw new \RuntimeException(sprintf('Directory "%s" is not writable', $this->path));
+        }
+
         $spreadsheet = new Spreadsheet;
         $activeWorksheet = $spreadsheet->getActiveSheet();
         $activeWorksheet->fromArray($this->toArray());
