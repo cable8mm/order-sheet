@@ -72,6 +72,11 @@ abstract class Factory
             foreach ($this->state as $key => $value) {
                 if (array_key_exists($key, $record)) {
                     $record[$key] = $value;
+                } else {
+                    trigger_error(
+                        sprintf('State key "%s" does not exist in definition and will be ignored', $key),
+                        E_USER_WARNING
+                    );
                 }
             }
 

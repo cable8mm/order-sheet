@@ -109,4 +109,24 @@ final class OrderSheetTest extends TestCase
 
         unlink(realpath(__DIR__.DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR.'dist'.DIRECTORY_SEPARATOR.'make_custom_name.xlsx'));
     }
+
+    public function test_it_throws_exception_for_invalid_count(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Count must be at least 1');
+
+        OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(0);
+    }
+
+    public function test_it_throws_exception_for_nonexistent_directory(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Directory "/nonexistent/path" does not exist');
+
+        OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(10)
+            ->path('/nonexistent/path')
+            ->xlsx('test.xlsx');
+    }
 }
