@@ -7,12 +7,12 @@ abstract class Factory
     /**
      * How many is it creating the row
      */
-    private int $count;
+    private int $count = 1;
 
     /**
      * Change key-value pairs in the definition
      */
-    private array $state;
+    private array $state = [];
 
     /**
      * Define a factory definition for online mall companies
@@ -24,15 +24,11 @@ abstract class Factory
     /**
      * Create a new Factory instance
      *
-     * @param  int|array|null  $count  The new count
-     * @param  array  $state  The new state
      * @return static The method returns a new Factory instance
      */
-    public static function make(int|array|null $count = null, array $state = []): static
+    public static function make(): static
     {
-        return (new static)
-            ->count(is_numeric($count) ? $count : null)
-            ->state(is_array($count) ? $count : $state);
+        return new static;
     }
 
     /**
@@ -71,15 +67,15 @@ abstract class Factory
         $records = [];
 
         for ($i = 0; $i < $this->count; $i++) {
-            $record = array_values($this->definition());
+            $record = $this->definition();
 
-            if (! empty($this->state)) {
-                foreach ($this->state as $key => $value) {
-                    $record[$key] = $this->{$key} ?? $value;
+            foreach ($this->state as $key => $value) {
+                if (array_key_exists($key, $record)) {
+                    $record[$key] = $value;
                 }
             }
 
-            $records[] = $record;
+            $records[] = array_values($record);
         }
 
         return $records;
