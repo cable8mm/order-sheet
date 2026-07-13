@@ -129,4 +129,57 @@ final class OrderSheetTest extends TestCase
             ->path('/nonexistent/path')
             ->xlsx('test.xlsx');
     }
+
+    public function test_csv_contains_correct_number_of_rows(): void
+    {
+        $csv = OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(5)
+            ->csv();
+
+        $rows = str_getcsv($csv, "\n");
+        $this->assertCount(5, $rows);
+    }
+
+    public function test_csv_with_header_contains_header_and_data_rows(): void
+    {
+        $csv = OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(3)
+            ->header()
+            ->csv();
+
+        $rows = str_getcsv($csv, "\n");
+        $this->assertCount(4, $rows); // 1 header + 3 data rows
+
+        // Verify first row is header (contains column names)
+        $header = str_getcsv($rows[0], ',');
+        $this->assertContains('주문고유번호', $header);
+    }
+
+    public function test_to_array_returns_correct_structure(): void
+    {
+        $data = OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(2)
+            ->toArray();
+
+        $this->assertCount(2, $data);
+        $this->assertIsArray($data[0]);
+        $this->assertIsArray($data[1]);
+    }
+
+    public function test_state_overrides_multiple_fields(): void
+    {
+        $data = OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(1)
+            ->state([
+                '상태' => '배송완료',
+                '구매자명' => '홍길동',
+                '주문수량' => 5,
+            ])
+            ->toArray();
+
+        $this->assertCount(1, $data);
+        $this->assertContains('배송완료', $data[0]);
+        $this->assertContains('홍길동', $data[0]);
+        $this->assertContains(5, $data[0]);
+    }
 }
