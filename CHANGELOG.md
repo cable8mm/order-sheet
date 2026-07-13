@@ -1,5 +1,13 @@
 # Release Notes
 
+## v1.2.2 - 2026-07-13
+
+### What's Changed
+
+* feat: improvements by [@cable8mm](https://github.com/cable8mm) in https://github.com/cable8mm/order-sheet/pull/11
+
+**Full Changelog**: https://github.com/cable8mm/order-sheet/compare/v1.2.1...v1.2.2
+
 ## v1.2.1 - 2025-02-08
 
 ### What's Changed
