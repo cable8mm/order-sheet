@@ -32,6 +32,13 @@ final class OrderSheetTest extends TestCase
         $this->assertStringContainsString(DIRECTORY_SEPARATOR.'dist', $path->getValue($orderSheet));
     }
 
+    public function test_it_can_convert_to_string(): void
+    {
+        $orderSheet = OrderSheet::of(OrderSheetType::PlayautoType);
+
+        $this->assertEquals('PlayautoType', (string) $orderSheet);
+    }
+
     public function test_it_export_to_array(): void
     {
         $orderSheet = OrderSheet::of(OrderSheetType::PlayautoType)
@@ -42,15 +49,39 @@ final class OrderSheetTest extends TestCase
         $this->assertIsArray($orderSheet);
     }
 
-    public function test_it_export_to_csv(): void
+    public function test_it_export_to_array_with_state(): void
     {
         $orderSheet = OrderSheet::of(OrderSheetType::PlayautoType)
             ->count(1)
+            ->state(['상태' => '송장입력'])
+            ->toArray();
+
+        $this->assertIsArray($orderSheet);
+        $this->assertCount(1, $orderSheet);
+    }
+
+    public function test_it_export_to_csv(): void
+    {
+        $csv = OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(1)
             ->csv();
 
-        $this->expectNotToPerformAssertions(\ValueError::class);
+        $rows = str_getcsv($csv, "\n");
 
-        str_getcsv($orderSheet);
+        $this->assertCount(1, $rows);
+        $this->assertIsString($csv);
+    }
+
+    public function test_it_export_to_csv_with_header(): void
+    {
+        $csv = OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(1)
+            ->header()
+            ->csv();
+
+        $rows = str_getcsv($csv, "\n");
+
+        $this->assertCount(2, $rows);
     }
 
     public function test_it_export_to_xlsx(): void
