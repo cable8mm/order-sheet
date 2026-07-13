@@ -21,7 +21,7 @@
         "fakerphp/faker": "^1.0",
         "league/csv": "^9.0",
         "mbezhanov/faker-provider-collection": "^2.0",
-        "phpoffice/phpspreadsheet": "^1.29.0|^2.0|^3.0"
+        "phpoffice/phpspreadsheet": "^5.0"
     },
     "require-dev": {
         "laravel/pint": "^1.20",
