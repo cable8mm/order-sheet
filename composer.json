@@ -25,13 +25,11 @@
     },
     "require-dev": {
         "laravel/pint": "^1.20",
-        "phpunit/phpunit": "^9.0|^10.0|^11.0"
+        "phpunit/phpunit": "^11.0"
     },
     "suggest": {
-        "cable8mm/enum-getter": "Provide a easy way to access enum values",
-        "ext-mbstring": "`league/csv` needed to be installed",
-        "mbezhanov/faker-provider-collection": "Provide faker methods for companies and products",
-        "phpoffice/phpspreadsheet": "Provides xlsx support for exporting data"
+        "ext-mbstring": "Required by league/csv for proper CSV handling",
+        "mbezhanov/faker-provider-collection": "Provides additional faker methods for companies and products"
     },
     "autoload": {
         "psr-4": {

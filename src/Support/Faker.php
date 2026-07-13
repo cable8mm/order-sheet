@@ -9,15 +9,16 @@ use Faker\Generator;
 
 class Faker
 {
-    /**
-     * @var Generator
-     */
-    private static $instance;
+    private static ?Generator $instance = null;
 
     /**
      * Get \Faker\Generator singleton instance
      *
-     * @param  ?string  $locale  the locale
+     * This method returns a shared Faker instance that is reused across calls.
+     * The instance is initialized with Korean locale and additional providers
+     * for commerce and device-related data.
+     *
+     * @param  ?string  $locale  the locale (default: 'ko_KR')
      * @return Generator The method returns \Faker\Generator singleton instance
      */
     public static function shared(?string $locale = 'ko_KR'): Generator
@@ -33,7 +34,12 @@ class Faker
     }
 
     /**
-     * Faker factory method
+     * Create a new Faker instance
+     *
+     * This method returns a new Faker instance that provides custom methods
+     * like dateTime() for Korean online shopping format.
+     *
+     * @return static The method returns a new Faker instance
      */
     public static function make(): static
     {

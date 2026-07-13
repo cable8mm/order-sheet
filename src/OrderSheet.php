@@ -15,7 +15,7 @@ class OrderSheet
     /**
      * The number of rows in the order sheet
      */
-    private int $count;
+    private int $count = 1;
 
     /**
      * The state of the order sheet
@@ -25,7 +25,7 @@ class OrderSheet
     /**
      * The path to save the order sheet
      */
-    private string $path;
+    private string $path = 'dist';
 
     /**
      * Whether to include the header in the order sheet
@@ -105,10 +105,11 @@ class OrderSheet
      */
     public function toArray(): array
     {
-        $rows = $this->factoryClass::make()->state($this->state)->count($this->count)->create();
+        $factory = $this->factoryClass::make()->state($this->state)->count($this->count);
+        $rows = $factory->create();
 
         if ($this->header) {
-            array_unshift($rows, $this->factoryClass::make()->header());
+            array_unshift($rows, $factory->header());
         }
 
         return $rows;
