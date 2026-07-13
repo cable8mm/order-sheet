@@ -148,9 +148,9 @@ class OrderSheet
      *
      * @return string The method returns the order sheet type as string
      */
-    public function __toString()
+    public function __toString(): string
     {
-        return $this->orderSheetType->value;
+        return $this->orderSheetType->name;
     }
 
     /**
