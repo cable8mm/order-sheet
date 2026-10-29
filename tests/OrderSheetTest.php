@@ -9,6 +9,45 @@ use ReflectionClass;
 
 final class OrderSheetTest extends TestCase
 {
+    private const PLAYAUTO_HEADER = [
+        '주문고유번호', '판매사이트명', '판매사이트코드', '판매자ID', '주문수집자ID',
+        '수집일', '주문일', '결제일', '상태변경일', '배송일', '상태', '판매사이트 주문번호',
+        '판매사이트 상품코드', '상품명', '상품명-홍보문구', '주문선택사항', '주문선택사항금액',
+        '추가구매옵션', '추가구매옵션금액', '원가', '공급가', '판매가', '총판매가(묶음후)',
+        '주문수량', '총주문수량(묶음후)', '배송방법(원본)', '배송방법(묶음/조건적용후)',
+        '배송방법 자동적용 사유', '배송비금액', '총배송비금액(묶음후)', '구매자ID', '구매자명',
+        '구매자전화번호', '구매자휴대폰번호', '수령자명', '수령자전화번호', '수령자휴대폰번호',
+        '배송지우편번호', '배송지주소', '배송메세지', '배송사명', '운송장번호', '마스터상품코드',
+        '주의메세지', '판매자상품코드',
+    ];
+
+    public function test_header_row_precedes_data_rows(): void
+    {
+        $data = OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(3)
+            ->header()
+            ->toArray();
+
+        $this->assertCount(4, $data);
+        $this->assertSame(self::PLAYAUTO_HEADER, $data[0]);
+
+        foreach (array_slice($data, 1) as $row) {
+            $this->assertCount(count($data[0]), $row);
+        }
+    }
+
+    public function test_header_can_be_turned_off(): void
+    {
+        $data = OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(2)
+            ->header()
+            ->header(false)
+            ->toArray();
+
+        $this->assertCount(2, $data);
+        $this->assertNotSame(self::PLAYAUTO_HEADER, $data[0]);
+    }
+
     public function test_it_creates_an_order_sheet_builder(): void
     {
         $orderSheet = OrderSheet::of(OrderSheetType::PlayautoType);

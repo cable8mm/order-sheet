@@ -28,7 +28,7 @@
     - Two EL-007 calls on the same order sheet builder return different data rows.
     - Unit tests for every criterion above pass.
 
-- [ ] T-004 Header row
+- [x] T-004 Header row
   - Satisfies: PRODUCT_SPEC.md FR-007, FR-008, FR-010, Outputs (header row), User Interface (EL-005)
   - External boundary: no
   - Acceptance criteria:
