@@ -170,6 +170,44 @@ final class PlayautoFactoryTest extends TestCase
         $this->assertLessThanOrEqual(1, count($extraOptions));
     }
 
+    public function test_it_generates_date_time_values(): void
+    {
+        $before = new DateTimeImmutable;
+        $rows = $this->rows(100);
+        $after = new DateTimeImmutable;
+
+        $intervals = [
+            ['주문일', '수집일', 60, 3600],
+            ['수집일', '결제일', 60, 1800],
+            ['결제일', '상태변경일', 60, 7200],
+            ['상태변경일', '배송일', 3600, 86400],
+        ];
+
+        foreach ($rows as $row) {
+            foreach (['수집일', '주문일', '결제일', '상태변경일', '배송일'] as $column) {
+                $this->assertMatchesRegularExpression(
+                    '/^\d{4}-\d{2}-\d{2} (오전|오후) (0[1-9]|1[0-2]):[0-5]\d:[0-5]\d$/u',
+                    $row[$column]
+                );
+                $this->assertSame(
+                    $row[$column],
+                    str_replace(['AM', 'PM'], ['오전', '오후'], $this->dateTime($row[$column])->format('Y-m-d A h:i:s'))
+                );
+            }
+
+            $orderedAt = $this->dateTime($row['주문일'])->getTimestamp();
+            $this->assertGreaterThanOrEqual($before->modify('-30 days')->getTimestamp() - 1, $orderedAt);
+            $this->assertLessThanOrEqual($after->modify('-1 day')->getTimestamp(), $orderedAt);
+
+            foreach ($intervals as [$from, $to, $min, $max]) {
+                $seconds = $this->dateTime($row[$to])->getTimestamp() - $this->dateTime($row[$from])->getTimestamp();
+
+                $this->assertGreaterThanOrEqual($min, $seconds);
+                $this->assertLessThanOrEqual($max, $seconds);
+            }
+        }
+    }
+
     /**
      * Generate rows keyed by column name.
      *
