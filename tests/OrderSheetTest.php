@@ -128,6 +128,44 @@ final class OrderSheetTest extends TestCase
             ->count(0);
     }
 
+    public function test_it_throws_exception_for_negative_count(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Count must be at least 1');
+
+        OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(-1);
+    }
+
+    public function test_it_generates_one_row_by_default(): void
+    {
+        $data = OrderSheet::of(OrderSheetType::PlayautoType)->toArray();
+
+        $this->assertCount(1, $data);
+    }
+
+    public function test_it_generates_count_rows_of_45_cells(): void
+    {
+        foreach ([1, 2, 10] as $count) {
+            $data = OrderSheet::of(OrderSheetType::PlayautoType)
+                ->count($count)
+                ->toArray();
+
+            $this->assertCount($count, $data);
+
+            foreach ($data as $row) {
+                $this->assertCount(45, $row);
+            }
+        }
+    }
+
+    public function test_each_export_generates_new_rows(): void
+    {
+        $orderSheet = OrderSheet::of(OrderSheetType::PlayautoType)->count(3);
+
+        $this->assertNotEquals($orderSheet->toArray(), $orderSheet->toArray());
+    }
+
     public function test_it_throws_exception_for_invalid_bundle_size(): void
     {
         $this->expectException(\InvalidArgumentException::class);

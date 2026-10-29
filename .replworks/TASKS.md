@@ -17,7 +17,7 @@
     - EL-010 returns `PlayautoType` (AC-001).
     - Unit tests for every criterion above pass.
 
-- [ ] T-003 Table generation by count
+- [x] T-003 Table generation by count
   - Satisfies: PRODUCT_SPEC.md FR-004, FR-006, FR-008, FR-009, ERR-001, User Interface (Interactions)
   - External boundary: no
   - Acceptance criteria:
