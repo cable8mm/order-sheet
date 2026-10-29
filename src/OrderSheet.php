@@ -18,6 +18,11 @@ class OrderSheet
     private int $count = 1;
 
     /**
+     * The number of order lines to generate for each order.
+     */
+    private int $bundleSize = 1;
+
+    /**
      * The state of the order sheet
      */
     private array $state = [];
@@ -61,6 +66,22 @@ class OrderSheet
         }
 
         $this->count = $count;
+
+        return $this;
+    }
+
+    /**
+     * Generate several order lines for each order.
+     *
+     * @throws \InvalidArgumentException If the bundle size is less than 1
+     */
+    public function bundle(int $bundleSize): static
+    {
+        if ($bundleSize < 1) {
+            throw new \InvalidArgumentException('Bundle size must be at least 1');
+        }
+
+        $this->bundleSize = $bundleSize;
 
         return $this;
     }
@@ -111,7 +132,10 @@ class OrderSheet
      */
     public function toArray(): array
     {
-        $factory = $this->factoryClass::make()->state($this->state)->count($this->count);
+        $factory = $this->factoryClass::make()
+            ->state($this->state)
+            ->count($this->count)
+            ->bundle($this->bundleSize);
         $rows = $factory->create();
 
         if ($this->header) {

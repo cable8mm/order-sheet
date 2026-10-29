@@ -119,6 +119,15 @@ final class OrderSheetTest extends TestCase
             ->count(0);
     }
 
+    public function test_it_throws_exception_for_invalid_bundle_size(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Bundle size must be at least 1');
+
+        OrderSheet::of(OrderSheetType::PlayautoType)
+            ->bundle(0);
+    }
+
     public function test_it_throws_exception_for_nonexistent_directory(): void
     {
         $this->expectException(\RuntimeException::class);
@@ -164,6 +173,16 @@ final class OrderSheetTest extends TestCase
         $this->assertCount(2, $data);
         $this->assertIsArray($data[0]);
         $this->assertIsArray($data[1]);
+    }
+
+    public function test_it_can_generate_multiple_lines_for_each_order(): void
+    {
+        $data = OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(3)
+            ->bundle(2)
+            ->toArray();
+
+        $this->assertCount(3, $data);
     }
 
     public function test_state_overrides_multiple_fields(): void
