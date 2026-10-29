@@ -355,6 +355,92 @@ final class OrderSheetTest extends TestCase
         }
     }
 
+    public function test_it_throws_exception_for_negative_bundle_size(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Bundle size must be at least 1');
+
+        OrderSheet::of(OrderSheetType::PlayautoType)
+            ->bundle(-1);
+    }
+
+    public function test_last_order_holds_the_remaining_rows(): void
+    {
+        $rows = $this->keyedRows(OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(3)
+            ->bundle(2));
+
+        $this->assertCount(3, $rows);
+        $this->assertSame($rows[0]['주문고유번호'], $rows[1]['주문고유번호']);
+        $this->assertNotSame($rows[1]['주문고유번호'], $rows[2]['주문고유번호']);
+    }
+
+    public function test_bundled_orders_share_order_fields_and_totals(): void
+    {
+        $orderFields = [
+            '주문고유번호', '판매사이트명', '판매사이트코드', '판매자ID', '주문수집자ID',
+            '수집일', '주문일', '결제일', '상태변경일', '배송일', '상태', '판매사이트 주문번호',
+            '배송방법(원본)', '배송방법(묶음/조건적용후)', '배송방법 자동적용 사유', '배송비금액',
+            '총배송비금액(묶음후)', '구매자ID', '구매자명', '구매자전화번호', '구매자휴대폰번호',
+            '수령자명', '수령자전화번호', '수령자휴대폰번호', '배송지우편번호', '배송지주소',
+            '배송메세지', '배송사명', '운송장번호',
+        ];
+
+        $rows = $this->keyedRows(OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(6)
+            ->bundle(3));
+
+        foreach (array_chunk($rows, 3) as $order) {
+            $quantity = array_sum(array_column($order, '주문수량'));
+            $price = array_sum(array_map(fn (array $row) => $row['판매가'] * $row['주문수량'], $order));
+
+            foreach ($order as $row) {
+                foreach ($orderFields as $field) {
+                    $this->assertSame($order[0][$field], $row[$field]);
+                }
+
+                $this->assertSame($quantity, $row['총주문수량(묶음후)']);
+                $this->assertSame($price, $row['총판매가(묶음후)']);
+            }
+        }
+    }
+
+    public function test_single_line_orders_total_their_own_values(): void
+    {
+        $rows = $this->keyedRows(OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(5)
+            ->bundle(1));
+
+        $this->assertNotSame($rows[0]['주문고유번호'], $rows[1]['주문고유번호']);
+
+        foreach ($rows as $row) {
+            $this->assertSame($row['주문수량'], $row['총주문수량(묶음후)']);
+            $this->assertSame($row['판매가'] * $row['주문수량'], $row['총판매가(묶음후)']);
+        }
+    }
+
+    public function test_bundle_totals_use_state_values(): void
+    {
+        $rows = $this->keyedRows(OrderSheet::of(OrderSheetType::PlayautoType)
+            ->state(['주문수량' => 5]));
+
+        $this->assertSame(5, $rows[0]['총주문수량(묶음후)']);
+    }
+
+    public function test_bundle_totals_replace_state_values(): void
+    {
+        $rows = $this->keyedRows(OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(4)
+            ->bundle(2)
+            ->state(['총주문수량(묶음후)' => 99]));
+
+        foreach (array_chunk($rows, 2) as $order) {
+            foreach ($order as $row) {
+                $this->assertSame(array_sum(array_column($order, '주문수량')), $row['총주문수량(묶음후)']);
+            }
+        }
+    }
+
     /**
      * Generate rows keyed by column name.
      *
