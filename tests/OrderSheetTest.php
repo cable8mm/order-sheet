@@ -9,13 +9,22 @@ use ReflectionClass;
 
 final class OrderSheetTest extends TestCase
 {
-    public function test_it_run_correctly(): void
+    public function test_it_creates_an_order_sheet_builder(): void
     {
-        $orderSheet = OrderSheet::of(OrderSheetType::PlayautoType)
-            ->count(10)
-            ->path('dist');
+        $orderSheet = OrderSheet::of(OrderSheetType::PlayautoType);
 
-        $this->assertTrue(true);
+        $this->assertInstanceOf(OrderSheet::class, $orderSheet);
+    }
+
+    public function test_setters_return_the_same_builder(): void
+    {
+        $orderSheet = OrderSheet::of(OrderSheetType::PlayautoType);
+
+        $this->assertSame($orderSheet, $orderSheet->count(10));
+        $this->assertSame($orderSheet, $orderSheet->bundle(2));
+        $this->assertSame($orderSheet, $orderSheet->state(['상태' => '송장입력']));
+        $this->assertSame($orderSheet, $orderSheet->header());
+        $this->assertSame($orderSheet, $orderSheet->path('dist'));
     }
 
     public function test_path_exists(): void

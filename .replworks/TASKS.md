@@ -8,7 +8,7 @@
     - Every check defined in TECH_STACK.md passes locally.
     - Every CI check defined in TECH_STACK.md passes on `main`.
 
-- [ ] T-002 Order sheet builder creation and string conversion
+- [x] T-002 Order sheet builder creation and string conversion
   - Satisfies: PRODUCT_SPEC.md User Interface (EL-001, EL-010), FR-001, FR-002, FR-003
   - External boundary: no
   - Acceptance criteria:
