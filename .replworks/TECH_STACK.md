@@ -10,7 +10,7 @@
 - Runtime dependencies:
   - `cable8mm/enum-getter` `^2.0`
   - `fakerphp/faker` `^1.0`
-  - `league/csv` `^9.0`
+  - `league/csv` `^9.27`
   - `mbezhanov/faker-provider-collection` `^2.0`
   - `phpoffice/phpspreadsheet` `^5.0`
 - Development dependencies:
