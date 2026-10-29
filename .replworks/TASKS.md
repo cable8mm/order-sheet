@@ -87,7 +87,7 @@
     - `배송메세지` takes at most three distinct values, one of which is empty.
     - Unit tests for every criterion above pass.
 
-- [ ] T-010 State overrides
+- [x] T-010 State overrides
   - Satisfies: PRODUCT_SPEC.md FR-018, FR-019, FR-064, ERR-005, User Interface (EL-004)
   - External boundary: no
   - Acceptance criteria:
