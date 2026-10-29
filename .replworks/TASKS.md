@@ -58,7 +58,7 @@
     - `판매자상품코드` equals `마스터상품코드` in every data row (AC-027).
     - Unit tests for every criterion above pass.
 
-- [ ] T-007 Date-time values
+- [x] T-007 Date-time values
   - Satisfies: PRODUCT_SPEC.md FR-032, FR-033, FR-034, FR-035, FR-036, FR-037, Outputs (date-time format)
   - External boundary: no
   - Acceptance criteria:
