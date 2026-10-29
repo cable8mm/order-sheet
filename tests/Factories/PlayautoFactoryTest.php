@@ -208,6 +208,26 @@ final class PlayautoFactoryTest extends TestCase
         }
     }
 
+    public function test_it_generates_price_quantity_and_shipping_values(): void
+    {
+        foreach ($this->rows(100) as $row) {
+            $this->assertIsInt($row['판매가']);
+            $this->assertGreaterThanOrEqual(1000, $row['판매가']);
+            $this->assertLessThanOrEqual(100000, $row['판매가']);
+            $this->assertIsInt($row['공급가']);
+            $this->assertGreaterThanOrEqual(0, $row['공급가']);
+            $this->assertLessThanOrEqual($row['판매가'], $row['공급가']);
+            $this->assertIsInt($row['원가']);
+            $this->assertGreaterThanOrEqual(0, $row['원가'] - $row['공급가']);
+            $this->assertLessThanOrEqual(10000, $row['원가'] - $row['공급가']);
+            $this->assertContains($row['주문수량'], [1, 2]);
+            $this->assertContains($row['배송방법(원본)'], ['선결제', '무료배송']);
+            $this->assertSame($row['배송방법(원본)'], $row['배송방법(묶음/조건적용후)']);
+            $this->assertSame($row['배송방법(원본)'] === '무료배송' ? 0 : 3000, $row['배송비금액']);
+            $this->assertSame($row['배송비금액'], $row['총배송비금액(묶음후)']);
+        }
+    }
+
     /**
      * Generate rows keyed by column name.
      *

@@ -68,7 +68,7 @@
     - Every date-time column matches the date-time format, with `오전` for AM and `오후` for PM (AC-022).
     - Unit tests for every criterion above pass.
 
-- [ ] T-008 Price, quantity, and shipping values
+- [x] T-008 Price, quantity, and shipping values
   - Satisfies: PRODUCT_SPEC.md FR-045, FR-046, FR-047, FR-048, FR-049, FR-050, FR-051, FR-052, FR-053
   - External boundary: no
   - Acceptance criteria:
