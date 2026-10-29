@@ -111,7 +111,7 @@
     - EL-004 with `총주문수량(묶음후)` = 99 yields the computed sum, not 99 (AC-020).
     - Unit tests for every criterion above pass.
 
-- [ ] T-012 CSV output
+- [x] T-012 CSV output
   - Satisfies: PRODUCT_SPEC.md FR-011, FR-012, Outputs (CSV text), User Interface (EL-008)
   - External boundary: no
   - Acceptance criteria:
