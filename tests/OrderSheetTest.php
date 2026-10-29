@@ -441,6 +441,60 @@ final class OrderSheetTest extends TestCase
         }
     }
 
+    public function test_csv_lines_parse_to_45_fields(): void
+    {
+        $lines = $this->parseCsv(OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(5)
+            ->header()
+            ->csv());
+
+        $this->assertCount(6, $lines);
+        $this->assertSame(self::PLAYAUTO_HEADER, $lines[0]);
+
+        foreach ($lines as $line) {
+            $this->assertCount(45, $line);
+        }
+    }
+
+    public function test_csv_contains_state_values(): void
+    {
+        $lines = $this->parseCsv(OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(3)
+            ->state(['상태' => '배송완료', '구매자명' => '홍길동'])
+            ->csv());
+
+        $this->assertCount(3, $lines);
+
+        foreach ($lines as $line) {
+            $row = array_combine(self::PLAYAUTO_HEADER, $line);
+
+            $this->assertSame('배송완료', $row['상태']);
+            $this->assertSame('홍길동', $row['구매자명']);
+        }
+    }
+
+    /**
+     * Parse CSV text into lines of fields.
+     *
+     * @return array<int, array<int, string|null>>
+     */
+    private function parseCsv(string $csv): array
+    {
+        $stream = fopen('php://memory', 'r+');
+        fwrite($stream, $csv);
+        rewind($stream);
+
+        $lines = [];
+
+        while (($line = fgetcsv($stream, null, ',', '"', '')) !== false) {
+            $lines[] = $line;
+        }
+
+        fclose($stream);
+
+        return $lines;
+    }
+
     /**
      * Generate rows keyed by column name.
      *
