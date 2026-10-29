@@ -152,7 +152,7 @@ class OrderSheet
      */
     public function csv(): string
     {
-        $writer = Writer::createFromString();
+        $writer = Writer::fromString();
         $writer->insertAll($this->toArray());
 
         return $writer->toString();

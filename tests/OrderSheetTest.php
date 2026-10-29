@@ -115,7 +115,7 @@ final class OrderSheetTest extends TestCase
             ->count(1)
             ->csv();
 
-        $rows = str_getcsv($csv, "\n");
+        $rows = str_getcsv($csv, "\n", '"', '');
 
         $this->assertCount(1, $rows);
         $this->assertIsString($csv);
@@ -128,7 +128,7 @@ final class OrderSheetTest extends TestCase
             ->header()
             ->csv();
 
-        $rows = str_getcsv($csv, "\n");
+        $rows = str_getcsv($csv, "\n", '"', '');
 
         $this->assertCount(2, $rows);
     }
@@ -232,7 +232,7 @@ final class OrderSheetTest extends TestCase
             ->count(5)
             ->csv();
 
-        $rows = str_getcsv($csv, "\n");
+        $rows = str_getcsv($csv, "\n", '"', '');
         $this->assertCount(5, $rows);
     }
 
@@ -243,11 +243,11 @@ final class OrderSheetTest extends TestCase
             ->header()
             ->csv();
 
-        $rows = str_getcsv($csv, "\n");
+        $rows = str_getcsv($csv, "\n", '"', '');
         $this->assertCount(4, $rows); // 1 header + 3 data rows
 
         // Verify first row is header (contains column names)
-        $header = str_getcsv($rows[0], ',');
+        $header = str_getcsv($rows[0], ',', '"', '');
         $this->assertContains('주문고유번호', $header);
     }
 
