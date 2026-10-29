@@ -287,4 +287,84 @@ final class OrderSheetTest extends TestCase
         $this->assertContains('홍길동', $data[0]);
         $this->assertContains(5, $data[0]);
     }
+
+    public function test_state_values_fill_their_columns_in_every_row(): void
+    {
+        $rows = $this->keyedRows(OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(5)
+            ->state([
+                '상태' => '배송완료',
+                '구매자명' => '홍길동',
+                '주문수량' => 5,
+            ]));
+
+        $this->assertCount(5, $rows);
+
+        foreach ($rows as $row) {
+            $this->assertSame('배송완료', $row['상태']);
+            $this->assertSame('홍길동', $row['구매자명']);
+            $this->assertSame(5, $row['주문수량']);
+            $this->assertGreaterThanOrEqual(1000, $row['판매가']);
+            $this->assertLessThanOrEqual(100000, $row['판매가']);
+            $this->assertSame($row['구매자전화번호'], $row['수령자전화번호']);
+            $this->assertSame($row['마스터상품코드'], $row['판매자상품코드']);
+        }
+    }
+
+    public function test_state_replaces_previous_state(): void
+    {
+        $rows = $this->keyedRows(OrderSheet::of(OrderSheetType::PlayautoType)
+            ->state(['상태' => '배송완료'])
+            ->state(['구매자명' => '홍길동']));
+
+        $this->assertSame('송장입력', $rows[0]['상태']);
+        $this->assertSame('홍길동', $rows[0]['구매자명']);
+    }
+
+    public function test_unknown_state_key_warns_and_is_ignored(): void
+    {
+        $warnings = [];
+
+        set_error_handler(function (int $level, string $message) use (&$warnings) {
+            $warnings[] = [$level, $message];
+
+            return true;
+        });
+
+        try {
+            $data = OrderSheet::of(OrderSheetType::PlayautoType)
+                ->count(2)
+                ->state(['없는컬럼' => 'x'])
+                ->toArray();
+        } finally {
+            restore_error_handler();
+        }
+
+        $this->assertNotEmpty($warnings);
+
+        foreach ($warnings as [$level, $message]) {
+            $this->assertSame(E_USER_WARNING, $level);
+            $this->assertSame('State key "없는컬럼" does not exist in definition and will be ignored', $message);
+        }
+
+        $this->assertCount(2, $data);
+
+        foreach ($data as $row) {
+            $this->assertCount(45, $row);
+            $this->assertNotContains('x', $row);
+        }
+    }
+
+    /**
+     * Generate rows keyed by column name.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function keyedRows(OrderSheet $orderSheet): array
+    {
+        return array_map(
+            fn (array $row) => array_combine(self::PLAYAUTO_HEADER, $row),
+            $orderSheet->toArray()
+        );
+    }
 }
