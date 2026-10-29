@@ -13,6 +13,8 @@
 
 생성 데이터는 Faker 기반의 합성 데이터입니다. 현재 PlayAuto 실파일을 기준으로 검증된 데이터나 묶음 주문 시뮬레이션을 제공하지 않으며, 독립된 주문 행 단위로 샘플을 생성합니다.
 
+`공급가`는 기본 매입 가격으로 생성하고, `원가`는 공급가와 임의의 부대비용을 합산해 생성합니다.
+
 API 문서: <https://www.palgle.com/order-sheet/>
 
 ## 지원 쇼핑몰
@@ -97,6 +99,14 @@ OrderSheet::of(OrderSheetType::PlayautoType)
   ->header()               // 헤더 행 포함
   ->path('dist')           // 저장할 경로 지정
   ->xlsx('my.xlsx');       // xlsx 파일로 내보내기 (기본: 'order_sheet.xlsx')
+
+// 주문당 2개 상품 행을 포함한 6개 주문 행 생성
+// 묶음 주문의 주문번호, 구매자/수령자, 날짜, 배송 정보와 합계는 행 간에 일치합니다.
+$bundledOrders = OrderSheet::of(OrderSheetType::PlayautoType)
+  ->count(6)
+  ->bundle(2)
+  ->header()
+  ->toArray();
 
 // 헤더 없이 CSV 문자열로 내보내기
 $csv = OrderSheet::of(OrderSheetType::PlayautoType)

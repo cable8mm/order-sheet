@@ -7,12 +7,17 @@ abstract class Factory
     /**
      * How many is it creating the row
      */
-    private int $count = 1;
+    protected int $count = 1;
+
+    /**
+     * The number of order lines to generate for each order.
+     */
+    protected int $bundleSize = 1;
 
     /**
      * Change key-value pairs in the definition
      */
-    private array $state = [];
+    protected array $state = [];
 
     /**
      * Define a factory definition for online mall companies
@@ -45,6 +50,25 @@ abstract class Factory
     }
 
     /**
+     * Set the number of rows to create for each order.
+     *
+     * Factories that support grouped orders use this value to share order-level
+     * fields and calculate bundle totals.
+     *
+     * @throws \InvalidArgumentException If the bundle size is less than 1
+     */
+    public function bundle(int $bundleSize): static
+    {
+        if ($bundleSize < 1) {
+            throw new \InvalidArgumentException('Bundle size must be at least 1');
+        }
+
+        $this->bundleSize = $bundleSize;
+
+        return $this;
+    }
+
+    /**
      * Update the state of the returned definitions
      *
      * @param  array  $state  The new state
@@ -69,18 +93,7 @@ abstract class Factory
         for ($i = 0; $i < $this->count; $i++) {
             $record = $this->definition();
 
-            foreach ($this->state as $key => $value) {
-                if (array_key_exists($key, $record)) {
-                    $record[$key] = $value;
-                } else {
-                    trigger_error(
-                        sprintf('State key "%s" does not exist in definition and will be ignored', $key),
-                        E_USER_WARNING
-                    );
-                }
-            }
-
-            $records[] = array_values($record);
+            $records[] = array_values($this->applyState($record));
         }
 
         return $records;
@@ -94,5 +107,27 @@ abstract class Factory
     public function header(): array
     {
         return array_keys($this->definition());
+    }
+
+    /**
+     * Apply configured values to a generated record.
+     *
+     * @param  array<string, mixed>  $record
+     * @return array<string, mixed>
+     */
+    protected function applyState(array $record): array
+    {
+        foreach ($this->state as $key => $value) {
+            if (array_key_exists($key, $record)) {
+                $record[$key] = $value;
+            } else {
+                trigger_error(
+                    sprintf('State key "%s" does not exist in definition and will be ignored', $key),
+                    E_USER_WARNING
+                );
+            }
+        }
+
+        return $record;
     }
 }
