@@ -79,6 +79,7 @@ final class PlayautoFactoryTest extends TestCase
                 $this->assertSame($firstLine['판매사이트 주문번호'], $line['판매사이트 주문번호']);
                 $this->assertSame($firstLine['구매자명'], $line['구매자명']);
                 $this->assertSame($firstLine['수령자명'], $line['수령자명']);
+                $this->assertSame($firstLine['운송장번호'], $line['운송장번호']);
                 $this->assertSame($expectedQuantity, $line['총주문수량(묶음후)']);
                 $this->assertSame($expectedPrice, $line['총판매가(묶음후)']);
                 $this->assertGreaterThanOrEqual($line['공급가'], $line['원가']);
@@ -87,6 +88,18 @@ final class PlayautoFactoryTest extends TestCase
                     $line['배송비금액']
                 );
             }
+        }
+    }
+
+    public function test_column_41_is_named_invoice_number(): void
+    {
+        $factory = PlayautoFactory::make()->count(3);
+        $rows = [$factory->header(), ...$factory->create()];
+
+        $this->assertSame('운송장번호', $rows[0][41]);
+
+        foreach ($rows as $row) {
+            $this->assertNotContains('송장번호', $row);
         }
     }
 
