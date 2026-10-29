@@ -228,6 +228,31 @@ final class PlayautoFactoryTest extends TestCase
         }
     }
 
+    public function test_it_generates_buyer_recipient_and_delivery_values(): void
+    {
+        $messages = [];
+
+        foreach ($this->rows(100) as $row) {
+            $this->assertMatchesRegularExpression('/[\x{AC00}-\x{D7AF}]/u', $row['구매자명']);
+            $this->assertMatchesRegularExpression('/[\x{AC00}-\x{D7AF}]/u', $row['수령자명']);
+            $this->assertSame($row['구매자전화번호'], $row['수령자전화번호']);
+            $this->assertSame($row['구매자휴대폰번호'], $row['수령자휴대폰번호']);
+
+            foreach (['배송지우편번호', '배송지주소'] as $column) {
+                $this->assertIsString($row[$column]);
+                $this->assertNotSame('', $row[$column]);
+            }
+
+            $messages[$row['배송메세지']] = true;
+        }
+
+        $this->assertLessThanOrEqual(3, count($messages));
+
+        foreach (array_keys($messages) as $message) {
+            $this->assertContains($message, ['', '문 앞에 놔 주세요', '부재 시 연락 주세요']);
+        }
+    }
+
     /**
      * Generate rows keyed by column name.
      *

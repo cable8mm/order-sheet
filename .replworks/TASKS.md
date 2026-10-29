@@ -77,7 +77,7 @@
     - `배송비금액` is 0 for `무료배송` and 3000 for `선결제` in every data row (AC-024).
     - Unit tests for every criterion above pass.
 
-- [ ] T-009 Buyer, recipient, and delivery values
+- [x] T-009 Buyer, recipient, and delivery values
   - Satisfies: PRODUCT_SPEC.md FR-054, FR-055, FR-056, FR-057, FR-058, FR-059, Outputs (Korean-locale values)
   - External boundary: no
   - Acceptance criteria:
