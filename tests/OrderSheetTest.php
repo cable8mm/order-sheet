@@ -4,6 +4,7 @@ namespace Cable8mm\OrderSheet\Tests;
 
 use Cable8mm\OrderSheet\Enums\OrderSheetType;
 use Cable8mm\OrderSheet\OrderSheet;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
@@ -471,6 +472,114 @@ final class OrderSheetTest extends TestCase
             $this->assertSame('배송완료', $row['상태']);
             $this->assertSame('홍길동', $row['구매자명']);
         }
+    }
+
+    public function test_xlsx_file_round_trips_the_table(): void
+    {
+        $directory = $this->temporaryDirectory();
+        $state = array_combine(self::PLAYAUTO_HEADER, array_map(
+            fn (string $column) => 'v-'.$column,
+            self::PLAYAUTO_HEADER
+        ));
+        $state['판매가'] = 1000;
+        $state['주문수량'] = 2;
+
+        $orderSheet = OrderSheet::of(OrderSheetType::PlayautoType)
+            ->count(3)
+            ->state($state)
+            ->header()
+            ->path($directory);
+
+        $orderSheet->xlsx('round_trip.xlsx');
+
+        $worksheets = IOFactory::load($directory.'/round_trip.xlsx')->getAllSheets();
+
+        $this->assertCount(1, $worksheets);
+        $this->assertEquals(
+            $orderSheet->toArray(),
+            $worksheets[0]->toArray(null, false, false, false)
+        );
+
+        $this->removeDirectory($directory);
+    }
+
+    public function test_xlsx_writes_into_dist_relative_to_working_directory(): void
+    {
+        $directory = $this->temporaryDirectory();
+        mkdir($directory.'/dist');
+        $workingDirectory = getcwd();
+
+        chdir($directory);
+
+        try {
+            OrderSheet::of(OrderSheetType::PlayautoType)->xlsx();
+        } finally {
+            chdir($workingDirectory);
+        }
+
+        $this->assertFileExists($directory.'/dist/order_sheet.xlsx');
+
+        $this->removeDirectory($directory);
+    }
+
+    public function test_xlsx_fails_for_non_writable_directory(): void
+    {
+        $directory = $this->temporaryDirectory();
+        chmod($directory, 0555);
+
+        try {
+            OrderSheet::of(OrderSheetType::PlayautoType)
+                ->path($directory)
+                ->xlsx('blocked.xlsx');
+
+            $this->fail('Expected a RuntimeException');
+        } catch (\RuntimeException $e) {
+            $this->assertSame(sprintf('Directory "%s" is not writable', $directory), $e->getMessage());
+        } finally {
+            chmod($directory, 0755);
+        }
+
+        $this->assertFileDoesNotExist($directory.'/blocked.xlsx');
+
+        $this->removeDirectory($directory);
+    }
+
+    public function test_xlsx_fails_for_missing_directory_without_writing(): void
+    {
+        $directory = $this->temporaryDirectory().'/missing';
+
+        try {
+            OrderSheet::of(OrderSheetType::PlayautoType)
+                ->path($directory)
+                ->xlsx('missing.xlsx');
+
+            $this->fail('Expected a RuntimeException');
+        } catch (\RuntimeException $e) {
+            $this->assertSame(sprintf('Directory "%s" does not exist', $directory), $e->getMessage());
+        }
+
+        $this->assertFileDoesNotExist($directory.'/missing.xlsx');
+
+        $this->removeDirectory(dirname($directory));
+    }
+
+    private function temporaryDirectory(): string
+    {
+        $directory = sys_get_temp_dir().'/order-sheet-'.bin2hex(random_bytes(6));
+        mkdir($directory);
+
+        return $directory;
+    }
+
+    private function removeDirectory(string $directory): void
+    {
+        array_map('unlink', glob($directory.'/{,*/}*.xlsx', GLOB_BRACE) ?: []);
+
+        if (is_dir($directory.'/dist')) {
+            rmdir($directory.'/dist');
+        }
+
+        rmdir($directory);
     }
 
     /**

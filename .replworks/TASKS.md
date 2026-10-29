@@ -121,7 +121,7 @@
     - EL-008 after EL-004 returns the state values in the parsed lines.
     - Unit tests for every criterion above pass.
 
-- [ ] T-013 XLSX output
+- [x] T-013 XLSX output
   - Satisfies: PRODUCT_SPEC.md FR-013, FR-014, FR-015, FR-016, FR-017, ERR-003, ERR-004, Outputs (XLSX file), User Interface (EL-006, EL-009)
   - External boundary: yes (local file system)
   - Acceptance criteria:
