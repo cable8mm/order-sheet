@@ -126,6 +126,62 @@ final class PlayautoFactoryTest extends TestCase
         );
     }
 
+    public function test_it_generates_identifier_values(): void
+    {
+        $extraOptions = [];
+
+        foreach ($this->rows(100) as $row) {
+            $this->assertMatchesRegularExpression('/^[1-9]\d{11}$/', (string) $row['주문고유번호']);
+            $this->assertContains($row['판매사이트명'], ['티몬', '고도몰5', '카페24(신)', '위메프2.0', '롯데백화점', '옥션']);
+            $this->assertMatchesRegularExpression('/^[AB][1-9]\d{2}$/', $row['판매사이트코드']);
+
+            foreach (['판매자ID', '주문수집자ID', '구매자ID'] as $column) {
+                $this->assertMatchesRegularExpression('/^\S+$/u', $row[$column]);
+            }
+
+            $this->assertSame('송장입력', $row['상태']);
+            $this->assertMatchesRegularExpression('/^2\d{9}$/', $row['판매사이트 주문번호']);
+            $this->assertMatchesRegularExpression('/^[1-9]\d{9}$/', (string) $row['판매사이트 상품코드']);
+            $this->assertIsString($row['상품명']);
+            $this->assertNotSame('', $row['상품명']);
+
+            foreach (['상품명-홍보문구', '주문선택사항', '배송방법 자동적용 사유', '주의메세지'] as $column) {
+                $this->assertEmpty($row[$column]);
+            }
+
+            $this->assertSame(0, $row['주문선택사항금액']);
+            $this->assertSame(0, $row['추가구매옵션금액']);
+
+            if (! empty($row['추가구매옵션'])) {
+                $extraOptions[$row['추가구매옵션']] = true;
+            }
+
+            $this->assertIsString($row['배송사명']);
+            $this->assertNotSame('', $row['배송사명']);
+            $this->assertIsInt($row['운송장번호']);
+            $this->assertGreaterThanOrEqual(1, $row['운송장번호']);
+            $this->assertLessThanOrEqual(1000000000, $row['운송장번호']);
+            $this->assertIsInt($row['마스터상품코드']);
+            $this->assertGreaterThanOrEqual(1, $row['마스터상품코드']);
+            $this->assertLessThanOrEqual(10, $row['마스터상품코드']);
+            $this->assertSame($row['마스터상품코드'], $row['판매자상품코드']);
+        }
+
+        $this->assertLessThanOrEqual(1, count($extraOptions));
+    }
+
+    /**
+     * Generate rows keyed by column name.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    private function rows(int $count): array
+    {
+        $factory = PlayautoFactory::make()->count($count);
+
+        return array_map(fn (array $row) => array_combine($factory->header(), $row), $factory->create());
+    }
+
     private function dateTime(string $value): DateTimeImmutable
     {
         $value = preg_replace('/(오전|오후) (\d{2}:\d{2}:\d{2})/', '$2 $1', $value);

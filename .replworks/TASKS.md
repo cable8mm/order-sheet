@@ -49,7 +49,7 @@
     - The `PlayautoType` column layout test lists `운송장번호` at column 41.
     - All tests pass.
 
-- [ ] T-006 Order, site, and product identifier values
+- [x] T-006 Order, site, and product identifier values
   - Satisfies: PRODUCT_SPEC.md FR-028, FR-029, FR-030, FR-031, FR-038, FR-039, FR-040, FR-041, FR-042, FR-043, FR-044, FR-060, FR-061, FR-062, FR-063
   - External boundary: no
   - Acceptance criteria:
