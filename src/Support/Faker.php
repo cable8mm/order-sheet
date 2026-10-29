@@ -4,6 +4,7 @@ namespace Cable8mm\OrderSheet\Support;
 
 use Bezhanov\Faker\Provider\Commerce;
 use Bezhanov\Faker\Provider\Device;
+use DateTimeInterface;
 use Faker\Factory;
 use Faker\Generator;
 
@@ -53,12 +54,16 @@ class Faker
      *
      * @example Faker::make()->dateTime() => "1993-06-09 오후 03:08:34"
      */
-    public function dateTime(): string
+    public function dateTime(?DateTimeInterface $dateTime = null): string
     {
         $search = ['AM', 'PM'];
 
         $replace = ['오전', '오후'];
 
-        return str_replace($search, $replace, self::shared()->dateTime()->format('Y-m-d A h:i:s'));
+        return str_replace(
+            $search,
+            $replace,
+            ($dateTime ?? self::shared()->dateTime())->format('Y-m-d A h:i:s')
+        );
     }
 }
