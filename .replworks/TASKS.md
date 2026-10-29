@@ -98,7 +98,7 @@
     - Columns not named in state still satisfy FR-028 to FR-063.
     - Unit tests for every criterion above pass.
 
-- [ ] T-011 Bundled orders
+- [x] T-011 Bundled orders
   - Satisfies: PRODUCT_SPEC.md FR-005, FR-020, FR-021, FR-022, FR-023, FR-024, FR-025, FR-026, FR-027, ERR-002, User Interface (EL-003)
   - External boundary: no
   - Acceptance criteria:
