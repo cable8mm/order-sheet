@@ -38,7 +38,7 @@
     - The header row has the same length as every data row.
     - Unit tests for every criterion above pass.
 
-- [ ] T-005 Rename column 41 header to 운송장번호
+- [x] T-005 Rename column 41 header to 운송장번호
   - Satisfies: PRODUCT_SPEC.md Outputs (header row, order-level columns), FR-010, FR-061, External Systems / PlayAuto column layout
   - External boundary: no
   - Acceptance criteria:
